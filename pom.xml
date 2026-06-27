@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.selenium.demo</groupId>
+    <artifactId>selenium_testing</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>selenium_testing</name>
+    <description>Selenium 4 + TestNG learning/demo project</description>
+
+    <properties>
+        <!-- Java 17 bytecode runs on JDK 17 (this machine) and JDK 21 (the
+             original Eclipse setup). Bump to 21 if you build only on JDK 21. -->
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Centralised dependency versions -->
+        <selenium.version>4.43.0</selenium.version>
+        <testng.version>7.10.2</testng.version>
+        <poi.version>5.2.3</poi.version>
+        <commons.io.version>2.16.1</commons.io.version>
+        <surefire.version>3.2.5</surefire.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- Selenium 4 (includes the built-in Selenium Manager, so no
+             WebDriverManager / manual driver download is needed). -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <!-- TestNG: @Test, @BeforeMethod, @BeforeClass, @BeforeSuite, etc. -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+        </dependency>
+
+        <!-- Apache POI: read/write .xlsx files (ExcelDemo, ExcelManager,
+             DataDrivenLogin, ExcelDataDrivenLogin -> XSSFWorkbook). -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- Commons IO: FileUtils (TableDemo, W3SchoolsTableDemo). -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- This project keeps every .java file in a single flat 'src' folder
+             instead of the Maven-standard 'src/main/java'. Point Maven at it so
+             nothing has to be moved. -->
+        <sourceDirectory>src</sourceDirectory>
+
+        <plugins>
+
+            <!-- Compile with JDK 21 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+
+            <!-- Run the TestNG suite (testng.xml) during 'mvn test'.
+                 The TestNG classes are compiled into target/classes (main),
+                 and TestNG loads them by name from the classpath. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
